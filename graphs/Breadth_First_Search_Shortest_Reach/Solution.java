@@ -36,7 +36,7 @@ public class Solution {
                 graph.addEdge(scanner.nextInt(), scanner.nextInt());
             }
             
-            graph.bfs(scanner.nextInt());
+            graph.bfs(scanner.nextInt(), graph.nodes);
             
             for ( int j = 1 ; j <= node_number ; j++ ) {
                 
@@ -48,6 +48,8 @@ public class Solution {
                     System.out.print(graph.nodes.get(j).prev * 6 + " ");
                 }
             }
+            
+            System.out.println("");
         }
     }
 }
@@ -71,46 +73,43 @@ class Graph {
         nodes.get(y).adjs.add(x);
     }
     
-    public void bfs( int start ) {
+    public void bfs( int start, HashMap<Integer,BFSNode> nodes ) {
+            
         
-        bfsHelper(start, 0);
+        Queue<BFSNode> queue = new LinkedList<>();
+        
+        nodes.get(start).prev = 0;
+        nodes.get(start).type = BFSType.VISITED;
+        queue.add(nodes.get(start));
+        
+        while ( !queue.isEmpty() ) {
+            
+            BFSNode node = queue.poll();
+            
+            for ( int adj : node.adjs ) {
+                
+                BFSNode a = nodes.get(adj);
+                
+                if ( a.type == BFSType.INFINITE ) {
+                    
+                    a.type = BFSType.VISITED;
+                    a.prev = node.prev + 1;
+                    queue.add(a);
+                    
+                }
+                 
+            }
+            
+        }
+        
         
     }
     
-    public void bfsHelper( int start, int level ) {
-        
-        Queue<BFSNode> nodeQueue = new LinkedList<>();
-        Map<BFSNode, Boolean> visited = new HashMap<>();
-        
-        nodeQueue.add(nodes.get(start));
-        nodes.get(start).prev = 0;
-        level++;
-        
-        while(!nodeQueue.isEmpty()) {
-            
-            BFSNode n = nodeQueue.poll();
-            if(!(visited.containsKey(n) && visited.get(n) == true)) {
-                // visit node                
-                visited.put(n, Boolean.TRUE);
-                // add adj to queue
-                for ( int i : n.adjs ) {
-                    nodeQueue.add(nodes.get(i));
-                    if ( !visited.containsKey( nodes.get(i) ) ) {
-                        nodes.get(i).prev = level;
-                    }
-                }
-                level++;
-            }
-            
-            
-        }
-    }
+   
 }
 
-
-
 enum BFSType {
-    BLACK, GRAY, WHITE;
+    VISITED, INFINITE;
 }
 
 class BFSNode {
@@ -123,7 +122,7 @@ class BFSNode {
 
     public BFSNode(int number) {
         this.number = number;
-        this.type = BFSType.WHITE;
+        this.type = BFSType.INFINITE;
         adjs = new ArrayList<>();
         this.prev = -1;
     }    
