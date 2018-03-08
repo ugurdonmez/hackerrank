@@ -60,10 +60,4 @@ class Dictionary {
         }
     }
     
-    public boolean isAnagram(String start, String end) {
-        
-        
-        
-    }
-    
 }

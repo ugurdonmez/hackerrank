@@ -50,9 +50,13 @@ public class Solution {
         
     }
     
-    public static String m(String ... args) {
-        
-        return StringUtils.join(args, "/");
+//    public static String m(String ... args) {
+//
+//        return StringUtils.join(args, "/");
+//    }
+
+    public static void main(String [] args) {
+        System.out.println("ugur");
     }
 
 }

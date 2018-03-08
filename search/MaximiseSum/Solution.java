@@ -21,8 +21,7 @@ public class Solution {
         System.out.println( upperBound(a, a.length, 5) );
         System.out.println( upperBound(a, a.length, 101) );
         
-        return;
-        
+
         
 
         Scanner scanner = new Scanner(System.in);
